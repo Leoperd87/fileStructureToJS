@@ -61,7 +61,7 @@ public class Main
      *
      * @parameter default-value=null
      */
-    private String ontputFile;
+    private String outputFile;
 
     /**
      * file js constant
@@ -107,8 +107,8 @@ public class Main
 
             fw.setMask(replaceMask);
 
-            if (!ontputFile.equals("null")) {
-                fw.setOutputFilePath(buildDirectory + ontputFile);
+            if (!outputFile.equals("null")) {
+                fw.setOutputFilePath(buildDirectory + outputFile);
             }
 
             fw.rewrite(content);
