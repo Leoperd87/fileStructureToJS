@@ -5,5 +5,5 @@ constan = {
   folder: '2'
 };
 
-%text%
+var gg=%text%;
 

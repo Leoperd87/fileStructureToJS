@@ -20,7 +20,7 @@ public class MainTest {
         a.setFileConstant("constan.file");
         a.setFolderConstant("constan.folder");
 
-        String content = a.getList("gg", true);
+        String content = a.getList();
 
         FileWorker fw = new FileWorker(testPath+"123.js");
 

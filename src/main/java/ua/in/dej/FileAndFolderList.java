@@ -15,8 +15,8 @@ public class FileAndFolderList {
         this.filePath = fp + separator;
     }
 
-    public String getList(String variableName, boolean isVariableLocal) {
-        return  (isVariableLocal ? "var " : "") + variableName + "=" + getFilesAndFolder("") + ";";
+    public String getList() {
+        return  getFilesAndFolder("");
     }
 
     public void setFileConstant(String fileConstant) {
@@ -33,7 +33,7 @@ public class FileAndFolderList {
         File[] listOfFiles = folder.listFiles();
 
         for (int i = 0; i < listOfFiles.length; i++) {
-            Boolean last = i == listOfFiles.length - 1;
+            boolean last = i == listOfFiles.length - 1;
             if (listOfFiles[i].isFile()) {
                 result += "{type:" + fileConstant + ",name:'" + ekran(listOfFiles[i].getName()) + "'}" + (!last ? "," : "");
 //                System.out.println("File " + listOfFiles[i].getName());

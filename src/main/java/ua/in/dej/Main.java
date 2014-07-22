@@ -20,15 +20,13 @@ import org.apache.maven.plugin.AbstractMojo;
 import org.apache.maven.plugin.MojoExecutionException;
 
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 
 /**
  * Goal which touches a timestamp file.
  *
- * @goal touch
+ * @goal generate
  * 
- * @phase process-sources
+ * @phase prepare-package
  */
 public class Main
     extends AbstractMojo
@@ -38,44 +36,82 @@ public class Main
      * @parameter expression="${project.build.directory}"
      * @required
      */
+    private String buildDirectory;
+
+    /**
+     * scan folder
+     *
+     * @parameter default-value=null
+     * @required
+     */
+    private String workFolder;
+
+
+    /**
+     * input file
+     *
+     * @parameter default-value=null
+     * @required
+     */
+    private String inputFile;
+
+
+    /**
+     * output file
+     *
+     * @parameter default-value=null
+     */
+    private String ontputFile;
+
+    /**
+     * file js constant
+     *
+     * @parameter default-value="'file'"
+     */
+    private String fileConst;
+
+
+    /**
+     * folder js constant
+     *
+     * @parameter default-value="'folder'"
+     */
+    private String folderConst;
+
+
+    /**
+     * replace text
+     *
+     * @parameter default-value="%CODE%"
+     */
+    private String replaceMask;
+
+
     private File outputDirectory;
 
     public void execute()
         throws MojoExecutionException
     {
-//        File f = outputDirectory;
-//
-//        if ( !f.exists() )
-//        {
-//            f.mkdirs();
-//        }
-//
-//        File touch = new File( f, "touch.txt" );
-//
-//        FileWriter w = null;
-//        try
-//        {
-//            w = new FileWriter( touch );
-//
-//            w.write( "touch.txt" );
-//        }
-//        catch ( IOException e )
-//        {
-//            throw new MojoExecutionException( "Error creating file " + touch, e );
-//        }
-//        finally
-//        {
-//            if ( w != null )
-//            {
-//                try
-//                {
-//                    w.close();
-//                }
-//                catch ( IOException e )
-//                {
-//                    // ignore
-//                }
-//            }
-//        }
+        if (inputFile.equals("null") || workFolder.equals("null")) {
+            System.err.println("Bad params");
+            System.exit(0);
+        } else {
+            FileAndFolderList a = new FileAndFolderList(buildDirectory + workFolder);
+
+            a.setFileConstant(fileConst);
+            a.setFolderConstant(folderConst);
+
+            String content = a.getList();
+
+            FileWorker fw = new FileWorker(buildDirectory+inputFile);
+
+            fw.setMask(replaceMask);
+
+            if (!ontputFile.equals("null")) {
+                fw.setOutputFilePath(buildDirectory + ontputFile);
+            }
+
+            fw.rewrite(content);
+        }
     }
 }
